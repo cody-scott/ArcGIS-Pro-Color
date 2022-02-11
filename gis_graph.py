@@ -411,7 +411,7 @@ class BaseColor:
             _val_cim.fieldValues = [str(_)]
             return_values.append(_val_cim)
         
-        return values
+        return return_values
 
 class ColorPolygon(BaseColor):
     def __init__(self, cmap: Optional[str] = None, graph: Optional[ArcGISPolygonGraph] = None):

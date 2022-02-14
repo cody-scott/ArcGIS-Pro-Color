@@ -24,6 +24,8 @@ once cloned, install the networkx library.
 
 When run in ArcGIS Pro, the tool will use the open map and active view. Based on the selected layer and field, the dataset will be colored with the fewest colors required to avoid color collisions.
 
+Feature symbology is updated in place. Data is unchanged.
+
 ## Method
 
 To calculate the minimum number of features, the toolbox must generate a graph representation of the dataset. As the graph represents a connected network, with nodes and links, the dataset is converted to this representation based on its spatial location.

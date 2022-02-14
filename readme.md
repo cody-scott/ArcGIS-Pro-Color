@@ -4,7 +4,7 @@ Toolbox applies the greedy color algorithm to point or polygon features. Goal is
 
 This is best used in scenarios where there are a large number of features and the colors are not important.
 
-## Installation Reqiuirements
+## Installation Requirements
 
 Requirements
 

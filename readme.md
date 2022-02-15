@@ -1,6 +1,6 @@
 # ArcGIS Pro Greedy Colorization
 
-Toolbox applies the greedy color algorithm to point or polygon features. Goal is to symbolize the features with the fewest required colors.
+Toolbox applies the greedy color algorithm to polyline or polygon features. Goal is to symbolize the features with the fewest required colors.
 
 This is best used in scenarios where there are a high cardinality column where individual colors do not matter. 
 

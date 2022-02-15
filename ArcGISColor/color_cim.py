@@ -33,8 +33,11 @@ class BaseColor(object):
         with Path(path).open('w') as f:
             json.dump(self.color_mappings, f, indent=4)
 
-    def build_color_map(self, graph):
-        c = nx.greedy_color(graph)
+    def build_color_map(self, graph, strategy=None):
+        if strategy is not None:
+            print(strategy) 
+
+        c = nx.greedy_color(graph, strategy)
         out = {}
         for _ in c:
             v = out.get(c[_], [])
@@ -65,7 +68,7 @@ class BaseColor(object):
             raise "Must run apply_colors() first"
         self.update_cim(layer, field, self.color_mappings)
 
-    def apply_colors(self, layer: arcpy._mp.Layer, field: str):
+    def apply_colors(self, layer: arcpy._mp.Layer, field: str, strategy: Optional[str]=None, *args, **kwargs):
         """Apply the greedy color algorithm to the graph and update the layer's CIM
 
         If the class is instanciated with a graph, then the graph is used, otherwise
@@ -87,7 +90,7 @@ class BaseColor(object):
         else:
             print('using supplied graph')
             
-        c = self.build_color_map(self.graph.graph)
+        c = self.build_color_map(self.graph.graph, strategy)
         self.color_mappings = c
 
         self.update_cim(layer, field, c)

@@ -12,48 +12,41 @@
 			<maxScale>5000</maxScale>
 		</scaleRange>
 	</Esri>
-	
 	<tool name="GreedyColorFeature" displayname="Greedy Color Feature" toolboxalias="Toolbox" xmlns="">
-	<parameters>
-    <param name="input_layer" displayname="Input Layer" type="Required" direction="Input" datatype="Feature Layer" expression="input_layer">
-	<dialogReference>&lt;p&gt;Input layer for the greedy color algorithm. This needs to be a layer in an existing map.&lt;/p&gt;
+		<parameters>
+			<param name="input_layer" displayname="Input Layer" type="Required" direction="Input" datatype="Feature Layer" expression="input_layer">
+				<dialogReference>&lt;p&gt;Input layer for the greedy color algorithm. This needs to be a layer in an existing map.&lt;/p&gt;
 &lt;p&gt;Should be the long name of the field in the map&lt;/p&gt;
 &lt;p&gt;Example:&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Group Layer1/Layer1&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;or&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Layer1&lt;/code&gt;&lt;/p&gt;</dialogReference>
-	
-	</param>
-	<param name="input_field" displayname="Input Field" type="Required" direction="Input" datatype="Field" expression="input_field">
-	<dialogReference>&lt;p&gt;String field name in the input layer.&lt;/p&gt;
+			</param>
+			<param name="input_field" displayname="Input Field" type="Required" direction="Input" datatype="Field" expression="input_field">
+				<dialogReference>&lt;p&gt;String field name in the input layer.&lt;/p&gt;
 &lt;p&gt;Example:
 &lt;code&gt;FieldA&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;FieldB&lt;/code&gt;&lt;/p&gt;</dialogReference>
-	
-	</param>
-	<param name="output_location" displayname="Graph Output Location" type="Optional" direction="Input" datatype="Workspace" expression="output_location">
-	<dialogReference>&lt;p&gt;Output location for the color polygons data.&lt;/p&gt;
+			</param>
+			<param name="output_location" displayname="Graph Output Location" type="Optional" direction="Input" datatype="Workspace" expression="output_location">
+				<dialogReference>&lt;p&gt;Output location for the color polygons data.&lt;/p&gt;
 &lt;p&gt;Saves to a csv composed of the feature.name and field.&lt;/p&gt;</dialogReference>
-	
-	</param>
-	
-	</parameters>
-	
-    </tool>
+			</param>
+		</parameters>
+	</tool>
 	<dataIdInfo>
 		<idCitation>
 			<resTitle>tool.displayname</resTitle>
 		</idCitation>
 		<searchKeys>
 		</searchKeys>
-        <idCredit></idCredit>
-        <resConst>
-            <Consts>
-                <useLimit></useLimit>
-            </Consts>
-        </resConst>
+		<idCredit></idCredit>
+		<resConst>
+			<Consts>
+				<useLimit></useLimit>
+			</Consts>
+		</resConst>
 	</dataIdInfo>
-
 	<distInfo>
 		<distributor>
 			<distorFormat>

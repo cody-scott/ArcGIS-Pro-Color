@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import gc
 import arcpy
 from ArcGISColor import ColorPolygon, ColorPolyline
 
@@ -91,7 +92,29 @@ class GreedyColorFeature(object):
         )
         output_location.filter.list = ['File System']
 
-        params = [input_layer, input_field, output_location]
+
+        search_strategy = arcpy.Parameter(
+            displayName="Search Strategy",
+            name="search_strategy",
+            datatype="GPString",
+            parameterType="Required",
+            direction="Input",
+        )
+        search_strategy.filter.list = [
+            'largest_first',
+            'random_sequential',
+            'smallest_last',
+            'independent_set',
+            'connected_sequential_bfs',
+            'connected_sequential_dfs',
+            'connected_sequential',
+            'saturation_largest_first',
+            'DSATUR',
+        ]
+        search_strategy.value = 'largest_first'
+
+
+        params = [input_layer, input_field, search_strategy, output_location]
         return params
 
     def isLicensed(self):
@@ -119,15 +142,17 @@ class GreedyColorFeature(object):
         """The source code of the tool."""
         _feature = parameters[0].valueAsText
         _field = parameters[1].valueAsText
-        _output_location = parameters[2].valueAsText
+        _strat = parameters[2].valueAsText
+        _output_location = parameters[3].valueAsText
         self.do_work(
             feature=_feature, 
             field=_field,
+            strategy=_strat,
             output_dir=_output_location
         )
         return
 
-    def do_work(self, feature, field, output_dir=None, project_file=None, map_name=None, *args, **kwargs):
+    def do_work(self, feature, field, strategy, output_dir=None, project_file=None, map_name=None, *args, **kwargs):
         if in_pro:
             proj = arcpy.mp.ArcGISProject("CURRENT")
             map = proj.activeMap
@@ -142,7 +167,7 @@ class GreedyColorFeature(object):
 
         feature = self._get_map_layer(map, feature)
         colors_obj = self._get_color_class(feature)
-        colors_obj.apply_colors(feature, field)
+        colors_obj.apply_colors(feature, field, strategy=strategy)
 
         if output_dir is not None:
             fn = f"{feature.name}_{field}_colors.csv"
@@ -188,3 +213,13 @@ class GreedyColorFeature(object):
         out_str = "\n".join(out_data)
         with output_file.open('w') as f:
             f.write(out_str)
+
+# if __name__=="__main__":
+#     gcf = GreedyColorFeature()
+#     gcf.do_work(
+#         "*Pres*",
+#         "Zone",
+#         "random_sequential",
+#         project_file=r"C:\Users\scody\Desktop\tmp\NetworkTest\NetworkTest.aprx",
+#         map_name="Map"
+#     )

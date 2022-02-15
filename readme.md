@@ -26,6 +26,8 @@ When run in ArcGIS Pro, the tool will use the open map and active view. Based on
 
 Feature symbology is updated in place. Data is unchanged.
 
+Default search strategy is 'largest first', but a different one can be specified. Full options available [here](https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.coloring.greedy_color.html#networkx.algorithms.coloring.greedy_color).
+
 ## Method
 
 To calculate the minimum number of features, the toolbox must generate a graph representation of the dataset. As the graph represents a connected network, with nodes and links, the dataset is converted to this representation based on its spatial location.

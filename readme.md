@@ -32,7 +32,7 @@ To calculate the minimum number of features, the toolbox must generate a graph r
 
 For polyline feature, the expectation is that each end represents a connected location. For example, two lines that end on each other, are considered connected and will be linked together. This represented is with the lines as node element in a graph, linked with an arbitrary line. 
 
-To calculate the graph the polyline feature is reduced to a point feature class with a point representing each end of the line. Each line will contain two points, sharing the input field value, which will then create the link in the networkx graph.
+To calculate the graph, the polyline feature is reduced to a point feature class with a point representing each end of the line. Each line will contain two points, sharing the input field value, which will then create the link in the networkx graph.
 
 A spatial join is completed to find the connected locations. The polygon features skips the previous step, and begins here. Similar assumption, in this case, if it touches, it is connected.
 

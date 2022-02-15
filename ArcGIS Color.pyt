@@ -3,6 +3,8 @@
 import arcpy
 from ArcGISColor import ColorPolygon, ColorPolyline
 
+from pathlib import Path
+
 import sys
 in_pro = True if "ArcGISPro.exe" in sys.executable else False
 
@@ -45,6 +47,13 @@ class GreedyColorFeature(object):
             `FieldB`
 
             """
+        },
+        'output_location': {
+            'dialog_reference': """
+            Output location for the color polygons data.
+
+            Saves to a csv composed of the feature.name and field.
+            """
         }
     }
     def __init__(self):
@@ -74,7 +83,15 @@ class GreedyColorFeature(object):
         )
         input_field.parameterDependencies = [input_layer.name]
 
-        params = [input_layer, input_field]
+        output_location = arcpy.Parameter(
+            displayName="Graph Output Location",
+            name="output_location",
+            datatype="DEWorkspace",
+            parameterType="Optional",
+        )
+        output_location.filter.list = ['File System']
+
+        params = [input_layer, input_field, output_location]
         return params
 
     def isLicensed(self):
@@ -102,13 +119,15 @@ class GreedyColorFeature(object):
         """The source code of the tool."""
         _feature = parameters[0].valueAsText
         _field = parameters[1].valueAsText
+        _output_location = parameters[2].valueAsText
         self.do_work(
             feature=_feature, 
-            field=_field
+            field=_field,
+            output_dir=_output_location
         )
         return
 
-    def do_work(self, feature, field, map_name=None, project_file=None, *args, **kwargs):
+    def do_work(self, feature, field, output_dir=None, project_file=None, map_name=None, *args, **kwargs):
         if in_pro:
             proj = arcpy.mp.ArcGISProject("CURRENT")
             map = proj.activeMap
@@ -122,8 +141,12 @@ class GreedyColorFeature(object):
             map = map[0]
 
         feature = self._get_map_layer(map, feature)
-        _class = self._get_color_class(feature)
-        _class.apply_colors(feature, field)
+        colors_obj = self._get_color_class(feature)
+        colors_obj.apply_colors(feature, field)
+
+        if output_dir is not None:
+            fn = f"{feature.name}_{field}_colors.csv"
+            self.save_mapping_to_csv(Path(output_dir)/fn, colors_obj)
 
         if not in_pro:
             proj.save()
@@ -138,6 +161,7 @@ class GreedyColorFeature(object):
         return feature
 
     def _get_color_class(self, feature):
+        # return ColorPolygon()
         """Determine if its a polygon or a polyline, and return the appropriate color class"""
         _colors = {
             'Polygon': ColorPolygon,
@@ -151,3 +175,16 @@ class GreedyColorFeature(object):
             raise Exception(msg)
         arcpy.AddMessage(f"{feature_type} shape detected")
         return _class_var()
+
+    def save_mapping_to_csv(self, output_file, colors_obj):
+        out_data = ["Value,Color"]
+        for ix in colors_obj.color_mappings:
+            out_data += [
+                ",".join(
+                    (val, str(ix))) 
+                    for val in colors_obj.color_mappings[ix]
+            ]
+        
+        out_str = "\n".join(out_data)
+        with output_file.open('w') as f:
+            f.write(out_str)

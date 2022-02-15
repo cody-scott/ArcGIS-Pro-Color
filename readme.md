@@ -51,3 +51,24 @@ Finally, the greedy color algorithm is applied to the graph and the layer is upd
 
 ![Polyline](images/polyline_example.png)
 
+## Pypi
+
+Library is also installable with pip.
+
+    pip install arcgiscolor
+
+Then called with the following command.
+
+    from ArcGISColor import ColorPolyline, ColorPolygon
+
+If using this as a standalone, the same parameters of needing to supply an ArcGIS Project and layer apply.
+    
+    project = arcpy.mp.ArcGISProject("C:\\path\\to\\project.aprx")
+    layer = project.listMaps('map_name')[0].listLayers('polygon_layer_name')[0]
+
+    cpoly = ColorPolygon()
+    cpoly.apply_colors(layer, 'field_name', 'largest_first')
+
+    project.save()
+
+Additional options are available this way, such as saving a graph, re-using a graph, etc.

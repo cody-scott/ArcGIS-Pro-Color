@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "ArcGISColor"
+version = "1.0.0"
+description = "Toolset to apply coloring to a layer in an ArcGIS Pro map, using the greedy color method"
+authors = ["Cody Scott <jcodyscott@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+networkx = "^2.6.3"
+
+[tool.poetry.dev-dependencies]
+pyt-metadata = "^1.1.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
